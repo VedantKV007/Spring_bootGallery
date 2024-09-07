@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+          background-image: url("background.jpg");
+        }
+    </style>
+    <title>Login Page</title>
+    <link rel="icon" href="lock2.png" >
+    <link rel="stylesheet" href="adlg.css">
+</head>
+<body>
+
+<header>
+    <div class="header-content">
+        <h1>Admin Login</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#client">Client</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<main class="cardLarge">
+    <section class="card">
+        <div th:if="${param.error}">
+            <p style="color:red;">Invalid username or password</p>
+        </div>
+
+        <section class="login">
+            <form action="/login" method="post">
+                <h4><label for="username">Username:</label></h4>
+                <input type="text" id="username" name="username" required><br><br>
+
+                <h4><label for="password">Password:</label></h4>
+                <input type="password" id="password" name="password" required><br><br>
+
+                <button type="submit">Login</button>
+            </form>
+        </section>
+    </section>
+</main>
+
+
+<footer>
+    <a href="https://www.flaticon.com/free-icons/locked" title="locked icons">Locked icon by Dewi Sari - Flaticon</a>
+</footer>
+
+</body>
+</html>

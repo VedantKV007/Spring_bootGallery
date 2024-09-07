@@ -1,0 +1,95 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f8fb;
+    background-image: url("violeyt.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center  center;
+  background-size: cover;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    background-color: #241f5ae6;
+    color: white;
+    padding: 15px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-content h1 {
+    margin: 0;
+    flex-grow: 1;
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #000000;
+}
+
+.cardcontain {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.card {
+
+    background: rgba(75, 138, 186, 0.806);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.4rem;
+    margin: 1rem;
+    width: 1000px;
+    height: 400px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+}
+
+
+footer {
+    background-color: #120b5f;
+    color: white;
+    text-align: center;
+    padding:  0;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
