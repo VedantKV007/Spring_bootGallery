@@ -7,8 +7,8 @@
     <title>ADMIN PANEL</title>
 
     <!-- External CSS links -->
-    <link rel="stylesheet" href="admp.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="admp.css">
 </head>
 <body>
 
@@ -17,65 +17,69 @@
         <h1>Welcome, Admin</h1>
         <nav>
             <ul>
-                <li><a href="/client">Clinet data</a></li>
+                <li><a href="/client">Client Data</a></li>
             </ul>
         </nav>
+
+
+        <a href="#popupForm" class="open-btn">Add Client Data & Photos</a>
     </div>
 </header>
 
-<!-- Expandable Card Button -->
-<div class="card">
-    <button class="expand-btn" onclick="toggleCard()">Click to Add Client Data</button>
 
-    <!-- Thymeleaf error message, if any -->
-    <div th:if="${errorMessage != null}" class="alert alert-danger" role="alert">
-        <span th:text="${errorMessage}"></span>
+<div class="cardcontain">
+    <div class="error-message" th:if="${errorMessage != null}">
+    <span th:text="${Client.}">
+    </span>
+
     </div>
+    <div class="card">
 
-    <!-- Expandable Client Form -->
-    <div class="tile" id="expandableCard">
-        <form action="#" th:action="@{/admin/add-client}" method="post" enctype="multipart/form-data" class="mb-3">
+
+
+        <h2>List of Clients</h2>
+
+        <table class="table table-bordered">
+            <tbody>
+            <tr th:each="client : ${clients}">
+                <td th:text="${client.clientNumber}"></td>
+                <td th:text="${client.name}"></td>
+
+                <td>
+                    <form action="#" th:action="@{/admin/delete-client}" method="post">
+                        <input type="hidden" name="clientNumber" th:value="${client.clientNumber}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div id="popupForm" class="popup">
+    <div class="popup-content">
+        <h2>Add Client Data</h2>
+        <form action="#" th:action="@{/admin/add-client}" method="post" enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="clientNumber" class="form-label">Client Number</label>
-                <input type="text" class="form-control" id="clientNumber" name="clientNumber" required>
+                <input type="text" id="clientNumber" name="clientNumber" required>
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">Client Name</label>
-                <input type="text" class="form-control" id="name" name="name" required>
+                <input type="text" id="name" name="name" required>
             </div>
             <div class="mb-3">
                 <label for="images" class="form-label">Upload Images</label>
-                <input type="file" class="form-control" id="images" name="images" multiple>
+                <input type="file" id="images" name="images" multiple>
             </div>
-            <button type="submit" class="btn btn-primary">Add Client</button>
+            <button type="submit" class="btn-submit">Add Client</button>
         </form>
+
+
+        <a href="#" class="close-btn">Close</a>
     </div>
-
-
-    <script>
-        function toggleCard() {
-            const card = document.getElementById('expandableCard');
-            card.classList.toggle('active');
-        }
-    </script>
-
-    <!-- Table to list clients -->
-    <h3>List of Clients</h3>
-    <table class="table table-bordered">
-
-        <tbody>
-        <tr th:each="client : ${clients}">
-            <td th:text="${client.clientNumber}"></td>
-            <td th:text="${client.name}"></td>
-            <td>
-                <form action="#" th:action="@{/admin/delete-client}" method="post">
-                    <input type="hidden" name="clientNumber" th:value="${client.clientNumber}">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 
 </body>

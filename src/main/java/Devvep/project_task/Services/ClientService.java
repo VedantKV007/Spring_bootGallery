@@ -19,24 +19,26 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client addClient(String clientNumber, String name, List<MultipartFile> images) throws Exception {
-        if (clientRepository.existsByClientNumber(clientNumber)) {
-            throw new Exception("Client number already exists!");
+    public Client Add_Client(String clientnum, String name, List<MultipartFile> images) throws Exception {
+        if (clientRepository.existsByClientNumber(clientnum)) {
+            throw new Exception("Client already exists!");
         }
-
         List<byte[]> imageData = uploadImages(images);
-        Client client = new Client(clientNumber, name, imageData);
+
+        Client client = new Client(clientnum, name, imageData);
 
         return clientRepository.save(client);
     }
 
-    public Optional<Client> getClientByNumber(String clientNumber) {
+    public Optional<Client> GetClientByNumber(String clientNumber) {
         return clientRepository.findByClientNumber(clientNumber);
     }
 
     public List<Client> getAllClients() {
         return clientRepository.findAll();
     }
+
+
 
     @Transactional
     public void deleteClientByNumber(String clientNumber) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.Base64;
@@ -22,7 +23,7 @@ public class webController {
     private ClientService clientService;
 
     @GetMapping("/")
-    public String homePage() {
+    public String home() {
         return "index";
     }
 
@@ -38,29 +39,25 @@ public class webController {
     public String login(@RequestParam("username") String username,
                         @RequestParam("password") String password,
                         Model model) {
-        // Hard-coded username and password
+
         if ("admin".equals(username) && "password".equals(password)) {
-            return "redirect:/loggedin";  // Redirect to success page if login is successful
+            return "redirect:/admin";
         } else {
 
             model.addAttribute("error", "Invalid username or password");
             return "adminlogin";
         }
     }
-    @GetMapping("/loggedin")
-    public String loggedInPage() {
-        return "adminpage";
-    }
 
 
     @GetMapping("/admin")
-    public String showAdminPage(Model model) {
+    public String AdminPage(Model model) {
         List<Client> clients = clientService.getAllClients();
         model.addAttribute("clients", clients);
         return "adminpage";
     }
 
-    @PostMapping("/admin/add-client")
+    /*@PostMapping("/admin/add-client")
     public String addClient(@RequestParam String clientNumber, @RequestParam String name,
                             @RequestParam("images") List<MultipartFile> images, Model model) {
         try {
@@ -69,43 +66,70 @@ public class webController {
             model.addAttribute("errorMessage", e.getMessage());
         }
         return "redirect:/admin";
+    }*/
+
+
+    @PostMapping("/admin/add-client")
+    public String Add_client(@RequestParam String clientNumber,
+                             @RequestParam String name,
+                            @RequestParam("images") List<MultipartFile> images,
+                            Model model) {
+        try {
+            clientService.Add_Client(clientNumber, name, images);
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "redirect:/admin";
+        }
+        return "redirect:/admin";
     }
 
+
     @PostMapping("/admin/delete-client")
-    public String deleteClient(@RequestParam String clientNumber) {
+    public String Delete_Client(@RequestParam String clientNumber) {
         clientService.deleteClientByNumber(clientNumber);
         return "redirect:/admin";
     }
 
     @GetMapping("/client")
-    public String showClientPage() {
+    public String showClientPage()
+    {
         return "client";
     }
-    @PostMapping("/client/get-client")
-    public String getClientInfo(@RequestParam String clientNumber, Model model) {
-        Optional<Client> clientOpt = clientService.getClientByNumber(clientNumber);
+
+    @PostMapping("client/get-client")
+    public String getClientInfo(@RequestParam String clientNumber, RedirectAttributes redirectAttributes) {
+        Optional<Client> clientOpt = clientService.GetClientByNumber(clientNumber);
         if (clientOpt.isPresent()) {
             Client client = clientOpt.get();
 
-            // Convert images to Base64
+            // Convert client images to Base64
             List<String> base64Images = new ArrayList<>();
             for (byte[] imageData : client.getImages()) {
-                String base64Image = Base64.getEncoder().encodeToString(imageData);  // Using java.util.Base64
+                String base64Image = Base64.getEncoder().encodeToString(imageData);
                 base64Images.add(base64Image);
             }
 
-            model.addAttribute("client", client);
-            model.addAttribute("images", base64Images);  // Add Base64-encoded images to the model
 
+            redirectAttributes.addFlashAttribute("client", client);
+            redirectAttributes.addFlashAttribute("images", base64Images);
+
+
+            return "redirect:/view-client";
         } else {
-            model.addAttribute("errorMessage", "Client number not found.");
+            redirectAttributes.addFlashAttribute("errorMessage", "Client number not found.");
+            return "redirect:/view-client";
         }
-        return "client";
     }
 
 
+    @GetMapping("/view-client")
+    public String View_ClientData(Model model) {
 
+        return "clinetdata";
+    }
 }
+
+
 
 
 

@@ -32,7 +32,7 @@ public class Client {
         this.images = images;
     }
 
-    // Getters and Setters
+
     public Long getId() {
         return id;
     }
