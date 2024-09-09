@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Data</title>
+  <link rel="stylesheet" href="dataclientstyle.css">
+</head>
+<body style="background-color:#4e1775">
+
+<div class="container">
+
+  <div class="client-info" th:if="${client != null}">
+    <h1>Client Name: <span th:text="${client.name}"></span></h1>
+  </div>
+
+
+  <div class="error-message" th:if="${errorMessage != null}">
+    <span th:text="${errorMessage}">
+    </span>
+    <a th:href="@{/client}" target="_blank">Go Back</a>
+  </div>
+
+
+  <div class="images-section" th:if="${images != null}">
+    <h2>Uploaded Images</h2>
+    <div class="image-gallery">
+      <div class="image-item" th:each="image : ${images}">
+        <img th:src="'data:image/jpeg;base64,' + ${image}" alt="Client Image" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<a th:href="@{/client}"> <- Back</a>
+
+
+
+</body>
+</html>
